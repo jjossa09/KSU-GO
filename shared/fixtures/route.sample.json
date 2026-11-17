@@ -1,0 +1,32 @@
+{
+  "id": "route-sample",
+  "version": 1,
+  "status": "confirmed",
+  "progress": null,
+  "error": null,
+  "buildingId": "b-engineering",
+  "destination": "Room 204",
+  "startFloor": "1",
+  "destinationFloor": "2",
+  "corridorWidthM": 2.0,
+  "ceilingHeightM": 2.7,
+  "steps": [
+    { "id": "s1", "type": "door", "label": "Main entrance", "source": "ai", "confidence": 0.97, "tSec": 0, "note": "glass double doors" },
+    { "id": "s2", "type": "walk", "lengthM": 8, "source": "ai", "confidence": 0.91, "tSec": 3, "note": "through the lobby" },
+    { "id": "s3", "type": "turn", "direction": "right", "source": "ai", "confidence": 0.88, "tSec": 10, "note": "at the information desk" },
+    { "id": "s4", "type": "walk", "lengthM": 5, "source": "ai", "confidence": 0.9, "tSec": 13, "note": "past the vending machines" },
+    { "id": "s5", "type": "stairs", "direction": "up", "riseM": 1.8, "runM": 3, "toFloor": null, "source": "ai", "confidence": 0.86, "tSec": 20, "note": "stairwell B" },
+    { "id": "s6", "type": "turn", "direction": "u_right", "source": "ai", "confidence": 0.82, "tSec": 29, "note": "landing" },
+    { "id": "s7", "type": "stairs", "direction": "up", "riseM": 1.8, "runM": 3, "toFloor": "2", "source": "ai", "confidence": 0.87, "tSec": 33, "note": "sign reads Floor 2" },
+    { "id": "s8", "type": "walk", "lengthM": 2, "source": "ai", "confidence": 0.84, "tSec": 44, "note": "out of the stairwell" },
+    { "id": "s9", "type": "turn", "direction": "left", "source": "ai", "confidence": 0.89, "tSec": 50, "note": "toward rooms 200-220" },
+    { "id": "s10", "type": "walk", "lengthM": 14, "source": "ai", "confidence": 0.93, "tSec": 54, "note": "past the water fountain" },
+    { "id": "s11", "type": "door", "label": "Room 204", "source": "ai", "confidence": 0.95, "tSec": 82, "note": "room sign 204 on the right" }
+  ],
+  "checks": [
+    { "id": "leg_length_range", "level": "pass", "message": "No walk is shorter than 0.5 m.", "stepId": null }
+  ],
+  "stats": { "videoSec": 86, "processingSec": 600, "costUsd": 0.31 },
+  "createdAt": "2026-11-17T09:00:00-05:00",
+  "confirmedAt": "2026-11-17T09:20:00-05:00"
+}

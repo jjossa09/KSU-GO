@@ -1,0 +1,40 @@
+{
+  "attribution": null,
+  "buildings": [
+    {
+      "id": "b-engineering",
+      "name": "Engineering Hall",
+      "footprint": [[-80, -70], [-20, -70], [-20, -30], [-80, -30]],
+      "heightM": 18,
+      "entrance": [-50, -30]
+    },
+    {
+      "id": "b-library",
+      "name": "Library",
+      "footprint": [[20, -80], [80, -80], [80, -30], [20, -30]],
+      "heightM": 22,
+      "entrance": [50, -30]
+    },
+    {
+      "id": "b-student-center",
+      "name": "Student Center",
+      "footprint": [[-90, 30], [-30, 30], [-30, 80], [-90, 80]],
+      "heightM": 12,
+      "entrance": [-60, 30]
+    },
+    {
+      "id": "b-arts",
+      "name": "Arts Building",
+      "footprint": [[30, 30], [80, 30], [80, 70], [30, 70]],
+      "heightM": 15,
+      "entrance": [55, 30]
+    }
+  ],
+  "paths": [
+    [[-100, 0], [100, 0]],
+    [[-50, -30], [-50, 0]],
+    [[50, -30], [50, 0]],
+    [[-60, 30], [-60, 0]],
+    [[55, 30], [55, 0]]
+  ]
+}
