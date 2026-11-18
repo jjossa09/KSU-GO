@@ -73,6 +73,8 @@ h1 { font-size: clamp(3rem, 7.2vw, 8.5rem); line-height: .9; letter-spacing: -.0
 .desktop-preview[data-scene="route"] #viewer { background: #17242f; }
 .scene-footer { border-top: 1px solid #ffffff20; color: var(--muted); font-size: .8rem; }
 .scene-footer b { color: var(--accent); padding-inline: 4px; }
+.desktop-preview:not([data-scene="campus"]) [data-for="campus"],
+.desktop-preview:not([data-scene="route"]) [data-for="route"] { display: none; }
 
 @media (max-width: 720px) {
   .desktop-preview .preview { grid-template-columns: 1fr; grid-template-rows: auto auto minmax(280px, 1fr) auto; gap: 0; }

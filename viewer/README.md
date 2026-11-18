@@ -2,9 +2,9 @@
 
 **MAP-2 gives the campus map and indoor directions one 3D viewer.** Open it in Chrome to try either scene with sample data. The same build produces one HTML file for the Expo app to load offline.
 
-![KSU-GO campus preview in Chrome, with the Campus and Indoor route tabs and a gold sample cube on a dark grid](docs/campus-preview.png)
+![KSU-GO campus preview in Chrome: the Campus tab shows a stylized low-poly campus with pastel buildings, cream walkways, trees, and the Globe plaza, with the Mathematics building outlined in coral and an OpenStreetMap credit in the corner](docs/campus-preview.png)
 
-The gold campus cube and blue route cube are sample geometry. Drag to orbit and scroll or pinch to zoom. The campus and route tickets replace these objects with buildings, event flags, and indoor directions.
+The campus tab shows a stylized low-poly campus built from the OpenStreetMap outlines in `campus.json`: drag to pan, right-drag or use two fingers to rotate, and scroll or pinch to zoom. Event flags (MAP-4) attach to its buildings, and the indoor route tab still shows a blue sample cube until the route tickets land.
 
 ## Run the demo
 
@@ -25,7 +25,7 @@ To try the built version, run `npm run build` inside `viewer/` and open `dist/in
 
 | File | What it owns |
 | --- | --- |
-| [`src/campus/index.ts`](src/campus/index.ts) | Entry point for campus geometry and map interactions. |
+| [`src/campus/index.ts`](src/campus/index.ts) | Campus map scene: camera framing, pan, pinch and rotate limits, render on demand, the OpenStreetMap credit, and the marked spot where MAP-4's `createFlags` call goes. Geometry is built in [`src/campus/build.ts`](src/campus/build.ts), one mesh per building tagged with `userData.buildingId`, with colors from [`src/palette.ts`](src/palette.ts). |
 | [`src/route/index.ts`](src/route/index.ts) | Entry point for indoor geometry and route interactions. |
 | [`src/scene.ts`](src/scene.ts) | The `load`, `handle`, and `dispose` scene interface and the current sample geometry. |
 | [`src/main.ts`](src/main.ts) | Selects the active scene, forwards messages, and disposes the previous scene when switching. |
