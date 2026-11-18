@@ -49,7 +49,7 @@ export function createCampusScene(
   Object.assign(credit.style, {
     position: "absolute",
     right: "6px",
-    bottom: "max(5px, env(safe-area-inset-bottom))",
+    bottom: "7px",
     padding: "1px 6px",
     borderRadius: "4px",
     background: css(palette.ui.surface, 0.75),

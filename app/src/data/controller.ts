@@ -6,7 +6,7 @@ export const HEALTH_TIMEOUT_MS = 2_000;
 export const HEALTH_POLL_INTERVAL_MS = 10_000;
 export const EVENTS_TIMEOUT_MS = 2_000;
 
-type DataApi = Pick<ApiClient, 'health' | 'listEvents' | 'getRoute'>;
+type DataApi = Pick<ApiClient, 'health' | 'listEvents' | 'getRoute' | 'register'>;
 type PollScheduler = (callback: () => Promise<void>, intervalMs: number) => unknown;
 type PollCanceler = (handle: unknown) => void;
 
@@ -140,6 +140,33 @@ export class AppDataController {
       });
       return fallback;
     }
+  }
+
+  async registerEvent(eventId: string, deviceId: string): Promise<number> {
+    if (this.current.source === 'server' && this.current.serverUrl) {
+      try {
+        const response = await this.clientFactory(this.current.serverUrl).register(eventId, deviceId);
+        this.update({
+          ...this.current,
+          events: this.current.events.map((event) => event.id === eventId
+            ? { ...event, registeredCount: response.registeredCount }
+            : event),
+        });
+        return response.registeredCount;
+      } catch (error) {
+        if (error instanceof ApiRequestError) throw error;
+        this.useFixtures(this.generation, this.now());
+      }
+    }
+
+    const event = this.current.events.find((item) => item.id === eventId);
+    if (!event) throw new Error(`Event ${eventId} is not available.`);
+    const registeredCount = event.registeredCount + 1;
+    this.update({
+      ...this.current,
+      events: this.current.events.map((item) => item.id === eventId ? { ...item, registeredCount } : item),
+    });
+    return registeredCount;
   }
 
   private get effectiveServerUrl(): string | null {

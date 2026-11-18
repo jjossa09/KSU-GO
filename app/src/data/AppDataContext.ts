@@ -5,6 +5,9 @@ import type { Route } from '../../../shared/types.ts';
 
 export type AppDataContextValue = AppDataState & {
   deviceId: string | null;
+  registeredEventIds: string[];
+  registrationsReady: boolean;
+  registerEvent(eventId: string): Promise<number>;
   refresh(): Promise<void>;
   setServerUrl(url: string): Promise<void>;
   getRoute(id: string): Promise<Route | null>;

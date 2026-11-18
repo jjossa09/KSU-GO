@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { getOrCreateDeviceId, loadServerUrlOverride, resolveServerUrl, saveServerUrlOverride } from '../settings/storage.ts';
+import { getOrCreateDeviceId, loadOfflineRegisteredCounts, loadRegisteredEventIds, loadServerUrlOverride, resolveServerUrl, saveOfflineRegisteredCounts, saveRegisteredEventIds, saveServerUrlOverride } from '../settings/storage.ts';
 import { AppDataController } from './controller.ts';
 
 function memoryStorage() {
@@ -51,6 +51,18 @@ test('blank URL overrides fall back to EXPO_PUBLIC_API_URL and persist stable de
   assert.equal(first, 'device-1');
   assert.equal(second, first);
   assert.equal(generated, 1);
+});
+
+test('persists registered event ids and ignores malformed storage values', async () => {
+  const storage = memoryStorage();
+  await saveRegisteredEventIds(storage, ['event-1', 'event-2']);
+  assert.deepEqual(await loadRegisteredEventIds(storage), ['event-1', 'event-2']);
+
+  await storage.setItem('ksu-go.registered-event-ids', '{bad json');
+  assert.deepEqual(await loadRegisteredEventIds(storage), []);
+
+  await saveOfflineRegisteredCounts(storage, { 'event-1': 5, invalid: -1 });
+  assert.deepEqual(await loadOfflineRegisteredCounts(storage), { 'event-1': 5 });
 });
 
 test('uses fixtures immediately when no server URL is configured', async () => {
@@ -140,5 +152,64 @@ test('changing the server URL refreshes immediately and later polls use the new 
   await getPoll()();
   assert.equal(controller.state.source, 'server');
   assert.deepEqual(controller.state.events, [{ id: 'http://override.test/' }]);
+  controller.stop();
+});
+
+test('registers an event in fixture mode and increments its local count', async () => {
+  const { controller } = makeController({
+    defaultApiUrl: '',
+    fixtureEvents: () => [{ id: 'event-1', registeredCount: 4 }],
+    loadServerUrlOverride: async () => null,
+  });
+
+  await controller.start();
+  const registeredCount = await controller.registerEvent('event-1', 'device-1');
+
+  assert.equal(registeredCount, 5);
+  assert.equal(controller.state.events[0].registeredCount, 5);
+  controller.stop();
+});
+
+test('registers with the server and uses its returned count', async () => {
+  let registration;
+  const { controller } = makeController({
+    fixtureEvents: () => [{ id: 'event-1', registeredCount: 4 }],
+    clientFactory: () => ({
+      health: async () => ({ ok: true, pipelineMode: 'mock' }),
+      listEvents: async () => [{ id: 'event-1', registeredCount: 4 }],
+      getRoute: async () => null,
+      register: async (eventId, deviceId) => {
+        registration = { eventId, deviceId };
+        return { registered: true, registeredCount: 5 };
+      },
+    }),
+  });
+
+  await controller.start();
+  const registeredCount = await controller.registerEvent('event-1', 'device-1');
+
+  assert.deepEqual(registration, { eventId: 'event-1', deviceId: 'device-1' });
+  assert.equal(registeredCount, 5);
+  assert.equal(controller.state.events[0].registeredCount, 5);
+  controller.stop();
+});
+
+test('falls back to a local registration when the server is unreachable', async () => {
+  const { controller } = makeController({
+    fixtureEvents: () => [{ id: 'event-1', registeredCount: 4 }],
+    clientFactory: () => ({
+      health: async () => ({ ok: true, pipelineMode: 'mock' }),
+      listEvents: async () => [{ id: 'event-1', registeredCount: 4 }],
+      getRoute: async () => null,
+      register: async () => { throw new TypeError('network unavailable'); },
+    }),
+  });
+
+  await controller.start();
+  const registeredCount = await controller.registerEvent('event-1', 'device-1');
+
+  assert.equal(controller.state.source, 'fixtures');
+  assert.equal(registeredCount, 5);
+  assert.equal(controller.state.events[0].registeredCount, 5);
   controller.stop();
 });
