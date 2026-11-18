@@ -263,7 +263,7 @@ const isLive = (e: EventSeed) => e.startsInMin <= 0 && e.startsInMin + e.duratio
 const isSoon = (e: EventSeed) => e.startsInMin > 0 && e.startsInMin <= SOON_MIN;
 const isLaterToday = (e: EventSeed) => e.startsInMin > SOON_MIN && e.startsInMin < DAY_MIN;
 const isToday = (e: EventSeed) => e.startsInMin < DAY_MIN && e.startsInMin + e.durationMin > 0;
-const inEng204 = (e: EventSeed) => e.location.buildingId === "b-engineering" && e.location.room === "204";
+const inMath204 = (e: EventSeed) => e.location.buildingId === "b-mathematics" && e.location.room === "204";
 
 function findStep(route: Route, id: string): Step {
   const step = route.steps.find((s) => s.id === id);
@@ -334,18 +334,18 @@ describe("events.seed.json", () => {
       + week.length).toBe(all.length);
   });
 
-  it("has exactly two today-events on route-sample at b-engineering/204, one of them soon", () => {
+  it("has exactly two today-events on route-sample at b-mathematics/204, one of them soon", () => {
     const onSample = seeds().filter((e) => e.routeId === "route-sample");
     expect(onSample).toHaveLength(2);
     for (const e of onSample) {
       expect(isToday(e), e.id).toBe(true);
-      expect(inEng204(e), e.id).toBe(true);
+      expect(inMath204(e), e.id).toBe(true);
     }
     expect(onSample.some(isSoon)).toBe(true);
   });
 
-  it("has exactly one other event at b-engineering/204, with no route", () => {
-    const others = seeds().filter((e) => inEng204(e) && e.routeId !== "route-sample");
+  it("has exactly one other event at b-mathematics/204, with no route", () => {
+    const others = seeds().filter((e) => inMath204(e) && e.routeId !== "route-sample");
     expect(others).toHaveLength(1);
     expect(others[0]?.routeId).toBeNull();
   });
@@ -360,13 +360,25 @@ describe("events.seed.json", () => {
 });
 
 describe("campus.json", () => {
-  it("has 4 rectangular buildings with unique ids, including b-engineering", () => {
+  it("has the seven selected OSM buildings with unique ids and unclosed footprints", () => {
     const { buildings } = campus();
-    expect(buildings).toHaveLength(4);
+    expect(buildings).toHaveLength(7);
     const ids = buildings.map((b) => b.id);
-    expect(new Set(ids).size).toBe(4);
-    expect(ids).toContain("b-engineering");
-    for (const b of buildings) expect(b.footprint, b.id).toHaveLength(4);
+    expect(new Set(ids).size).toBe(buildings.length);
+    expect(ids).toEqual(expect.arrayContaining([
+      "b-mathematics", "b-library", "b-administration", "b-student-center",
+      "b-east-building", "b-norton", "b-crawford",
+    ]));
+    for (const b of buildings) {
+      expect(b.heightM, b.id).toBeGreaterThan(0);
+      expect(b.footprint.length, b.id).toBeGreaterThanOrEqual(3);
+      expect(b.footprint[0], b.id).not.toEqual(b.footprint[b.footprint.length - 1]);
+      const twiceArea = b.footprint.reduce((area, a, i) => {
+        const c = b.footprint[(i + 1) % b.footprint.length];
+        return area + (c === undefined ? 0 : a[0] * c[1] - c[0] * a[1]);
+      }, 0);
+      expect(Math.abs(twiceArea), b.id).toBeGreaterThan(0);
+    }
   });
 
   it("places each entrance on its footprint edge", () => {
@@ -385,9 +397,9 @@ describe("campus.json", () => {
     }
   });
 
-  it("has an attribution of null and at least one path", () => {
+  it("credits OpenStreetMap contributors and has walkway polylines", () => {
     const c = campus();
-    expect(c.attribution).toBeNull();
+    expect(c.attribution).toBe("© OpenStreetMap contributors");
     expect(c.paths.length).toBeGreaterThan(0);
     for (const p of c.paths) expect(p.length).toBeGreaterThanOrEqual(2);
   });

@@ -33,7 +33,7 @@
     "category": "career",
     "startsInMin": 10,
     "durationMin": 60,
-    "location": { "buildingId": "b-student-center", "room": "120" },
+    "location": { "buildingId": "b-administration", "room": "120" },
     "routeId": null,
     "capacity": 25,
     "registeredCount": 25
@@ -46,7 +46,7 @@
     "category": "academic",
     "startsInMin": 25,
     "durationMin": 75,
-    "location": { "buildingId": "b-engineering", "room": "204" },
+    "location": { "buildingId": "b-mathematics", "room": "204" },
     "routeId": "route-sample",
     "capacity": 30,
     "registeredCount": 12
@@ -59,7 +59,7 @@
     "category": "arts",
     "startsInMin": 45,
     "durationMin": 90,
-    "location": { "buildingId": "b-arts", "room": "Black Box Theater" },
+    "location": { "buildingId": "b-east-building", "room": "Black Box Theater" },
     "routeId": null,
     "capacity": 60,
     "registeredCount": 31
@@ -72,7 +72,7 @@
     "category": "social",
     "startsInMin": 90,
     "durationMin": 60,
-    "location": { "buildingId": "b-engineering", "room": "Atrium" },
+    "location": { "buildingId": "b-crawford", "room": "Atrium" },
     "routeId": null,
     "capacity": null,
     "registeredCount": 9
@@ -98,7 +98,7 @@
     "category": "career",
     "startsInMin": 240,
     "durationMin": 90,
-    "location": { "buildingId": "b-engineering", "room": "204" },
+    "location": { "buildingId": "b-mathematics", "room": "204" },
     "routeId": "route-sample",
     "capacity": 50,
     "registeredCount": 34
@@ -111,7 +111,7 @@
     "category": "arts",
     "startsInMin": 360,
     "durationMin": 120,
-    "location": { "buildingId": "b-arts", "room": "Studio 105" },
+    "location": { "buildingId": "b-student-center", "room": "Studio 105" },
     "routeId": null,
     "capacity": 15,
     "registeredCount": 15
@@ -124,7 +124,7 @@
     "category": "other",
     "startsInMin": 480,
     "durationMin": 120,
-    "location": { "buildingId": "b-engineering", "room": "204" },
+    "location": { "buildingId": "b-mathematics", "room": "204" },
     "routeId": null,
     "capacity": 20,
     "registeredCount": 4
@@ -137,7 +137,7 @@
     "category": "social",
     "startsInMin": 600,
     "durationMin": 180,
-    "location": { "buildingId": "b-student-center", "room": "Ballroom" },
+    "location": { "buildingId": "b-norton", "room": "Ballroom" },
     "routeId": null,
     "capacity": null,
     "registeredCount": 46
@@ -176,7 +176,7 @@
     "category": "arts",
     "startsInMin": 1980,
     "durationMin": 90,
-    "location": { "buildingId": "b-arts", "room": "Studio 105" },
+    "location": { "buildingId": "b-student-center", "room": "Studio 105" },
     "routeId": null,
     "capacity": 18,
     "registeredCount": 11
@@ -189,7 +189,7 @@
     "category": "academic",
     "startsInMin": 2400,
     "durationMin": 120,
-    "location": { "buildingId": "b-library", "room": "210" },
+    "location": { "buildingId": "b-mathematics", "room": "210" },
     "routeId": null,
     "capacity": 35,
     "registeredCount": 20
@@ -215,7 +215,7 @@
     "category": "career",
     "startsInMin": 3500,
     "durationMin": 120,
-    "location": { "buildingId": "b-engineering", "room": "118" },
+    "location": { "buildingId": "b-administration", "room": "118" },
     "routeId": null,
     "capacity": 24,
     "registeredCount": 19
@@ -241,7 +241,7 @@
     "category": "academic",
     "startsInMin": 4700,
     "durationMin": 240,
-    "location": { "buildingId": "b-engineering", "room": "Atrium" },
+    "location": { "buildingId": "b-crawford", "room": "Atrium" },
     "routeId": null,
     "capacity": null,
     "registeredCount": 41
@@ -254,7 +254,7 @@
     "category": "arts",
     "startsInMin": 5300,
     "durationMin": 120,
-    "location": { "buildingId": "b-arts", "room": "Black Box Theater" },
+    "location": { "buildingId": "b-student-center", "room": "Black Box Theater" },
     "routeId": null,
     "capacity": 80,
     "registeredCount": 26
@@ -293,7 +293,7 @@
     "category": "social",
     "startsInMin": 8200,
     "durationMin": 90,
-    "location": { "buildingId": "b-engineering", "room": "118" },
+    "location": { "buildingId": "b-mathematics", "room": "118" },
     "routeId": null,
     "capacity": 40,
     "registeredCount": 13
@@ -306,7 +306,7 @@
     "category": "other",
     "startsInMin": 9600,
     "durationMin": 60,
-    "location": { "buildingId": "b-library", "room": "Lobby" },
+    "location": { "buildingId": "b-norton", "room": "Lobby" },
     "routeId": null,
     "capacity": null,
     "registeredCount": 5
